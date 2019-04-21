@@ -1,0 +1,18 @@
+@font-face {
+	src: url("../fonts/OpenSans.ttf");
+	font-family: "Site";
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Site", sans-serif;	
+}
+
+ul {
+	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+}

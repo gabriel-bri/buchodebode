@@ -1,0 +1,26 @@
+/*Arquivo de configuração da página incial*/
+
+.banner {
+	width: 100%;
+	background: url("../images/bg-index.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding: 15% 0;
+}
+
+
+.banner-text h1 {
+	font-size: 2em;
+	color: #fff;
+	text-transform: uppercase;
+	text-align: center;
+
+}
+
+.banner-text h5 {
+	font-size: 1.2em;
+	margin-left: 30%;
+	text-align: center;
+	text-transform: uppercase;
+	color: #fff;
+}
