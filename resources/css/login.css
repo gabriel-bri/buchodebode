@@ -25,6 +25,7 @@
 	margin-top: 5%;
 	margin-bottom: 3%;
 }
+
 input[type=checkbox] {
 	width: 10%;
 	height: 30px;
@@ -35,7 +36,7 @@ input[type=checkbox] {
 	outline: none;
 }
 
-input:checked[type=checkbox] {
+input:checked[type="checkbox"] {
 	border-left: none;
 	border-top: none;
 	border-color: #0f0;
@@ -50,7 +51,12 @@ input:checked[type=checkbox] {
 	margin-top: 2%;
 }
 
-input[type=submit] {
+
+.login-field-recovery a {
+	font-size: 1em;
+}
+
+input[type="submit"] {
 	border: none;
 	cursor: pointer;
 	border-radius: 3px;
@@ -69,6 +75,10 @@ input[type=submit] {
 
 .login-field-checkbox {
 	margin-top: 3%;
+}
+
+input[type="checkbox"] {
+	vertical-align: -10px;
 }
 
 .login-field-checkbox label {

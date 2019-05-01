@@ -35,11 +35,8 @@
 	transition: .5s
 }
 
-2 8 128
 .header-hamburguer:before {
 	top: -11px;
-	/*2467 0531
-*/
 }
 
 .header-hamburguer:after {
@@ -61,32 +58,32 @@
 	transform: rotate(135deg);
 	top: 0;
 }
+/*Faz a esilização quando o .header-icon é clicado e ativa a exibicao do menu*/
 
 .header-menu {
-	background: #000;
-	width: 100%;
+	text-align: center;
 	height: 0;
 	position: absolute;
-	text-align: center;
+	background: #000;
+	width: 100%;
 	transition: .5s;
 }
 
 .header-menu ul li {
-	padding: 5% 0;
-	transition: .5s;
-	opacity: 0;
+	display: none;
+	padding: 4%; 
 }
 
-.header-menu ul li a{
+.header-menu ul li a {
 	color: #fff;
+	text-transform: uppercase;
+	font-size: 1em;
 }
 
-/*Faz a esilização quando o .header-icon*/
 .header-menu.growup {
 	height: 300px;
 }
 
 .header-menu.growup ul li {
-	opacity: 1;
+	display: block;
 }
-
