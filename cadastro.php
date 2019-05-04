@@ -31,7 +31,7 @@
 		<div class="login-field">
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 				<span class="icond">
-					<input type="text" name="nome" placeholder="Nome" required="" class="login-field-name">
+					<input type="text" name="nome" placeholder="Nome completo" required="" class="login-field-name">
 					<i class="fas fa-user"></i>				
 				</span>
 				
