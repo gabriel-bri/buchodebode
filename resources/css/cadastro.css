@@ -1,3 +1,10 @@
+.wrong {
+	border-color: #ffa0a0;
+}
+.correct {
+	border-color: none;
+}
+
 .login {
 	width: 100%;
 }
@@ -6,6 +13,15 @@
 	margin-top: 5%;
 	text-align: center;
 	width: 100%;
+}
+
+.login-field-name {
+	width: 60%;
+	height: 12px;
+	padding: 5% 5% 5% 6%;
+	box-shadow: 1px 1px 2px #262626;
+	border-radius: 5%;
+	margin-bottom: 5%;
 }
 
 .login-field-email {
@@ -18,12 +34,33 @@
 
 .login-field-password {
 	width: 60%;
-	height: 12px;	
+	height: 12px;
 	padding: 5% 5% 5% 6%;
 	box-shadow: 1px 1px 2px #262626;
 	border-radius: 5%;
 	margin-top: 5%;
-	margin-bottom: 3%;
+	margin-bottom: 0;
+	outline: none;
+}
+
+.login-field-repassword {
+	width: 60%;
+	height: 12px;
+	padding: 5% 5% 5% 6%;
+	box-shadow: 1px 1px 2px #262626;
+	border-radius: 5%;
+	margin-top: 5%;
+	outline: none;	
+}
+
+.login-field-phone {
+	width: 60%;
+	height: 12px;
+	padding: 5% 5% 5% 6%;
+	box-shadow: 1px 1px 2px #262626;
+	border-radius: 5%;
+	margin-top: 5%;
+	outline: none;
 }
 
 .icond {
@@ -35,6 +72,17 @@
 	left: 1.5%;
 	top: 20%;
 	font-size: 1em;
+}
+
+.login-field-date {
+	width: 60%;
+	height: 12px;
+	padding: 5% 5% 5% 6%;
+	box-shadow: 1px 1px 2px #262626;
+	border-radius: 5%;
+	margin-top: 5%;
+	margin-bottom: 3%;
+	outline: none;	
 }
 
 input[type=checkbox] {
@@ -96,7 +144,7 @@ input[type="checkbox"] {
 	margin-left: 4%;
 }
 
-.login-field-signup {
+.login-field-signin {
 	font-size: 1em;
 	margin-bottom: 3%;
 }

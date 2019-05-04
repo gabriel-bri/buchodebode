@@ -25,9 +25,8 @@ function conect() {
 	$PASSWORD = "root";
 	$DB = "buchodebode";
 
-	$conection = mysqli_connect($HOST, $USER, $PASSWORD, $DB);
+	@$conection = mysqli_connect($HOST, $USER, $PASSWORD, $DB);
 
-	$GLOBALS['CONECT'] = $conection;
 	if (!$conection) {
 		echo "<script>swal('Ops', 'Problemas em nosso servidor, tente novamente mais tarde', 'error');</script>";
 	}
@@ -48,10 +47,14 @@ function login($email_, $senha_) {
 	
 	$senha_criptografada = sha1($senha);
 	
-	$buscabanco = mysqli_query($conexao_var, "SELECT email, senha FROM cliente WHERE email =  '{$email}' AND senha = '{$senha_criptografada}'" );
+	$buscabanco = mysqli_query($conexao_var, "SELECT nome, email, senha FROM cliente WHERE email =  '{$email}' AND senha = '{$senha_criptografada}'" );
+
+	$nome_sessao = mysqli_fetch_assoc($buscabanco);
 
 	if (mysqli_num_rows($buscabanco) == 1) {
-		
+		session_start();
+		$_SESSION['nome'] = $nome_sessao['nome'];
+		header("Location: dashboard_cliente.php");		
 	}
 
 	else {
@@ -59,84 +62,108 @@ function login($email_, $senha_) {
 	}
 }
 
-function new_user($email_, $user_) {
-	$email = $email_;
+function new_user($user_, $email_, $senha_, $telefone_, $nascimento_) {
 
 	$user = $user_;
 
-	require 'resources/email/phpmailer/phpmailer/PHPMailerAutoload.php';
+	$email = $email_;
+	
+	$senha = $senha_;
 
-	$mail = new PHPMailer;
+	$senha_criptografada = sha1($senha);
+	
+	$telefone = $telefone_;
 
-	//Tell PHPMailer to use SMTP
-	$mail->isSMTP();
+	$nascimento = $nascimento_;
 
-	//Enable SMTP debugging
-	// 0 = off (for production use)
-	// 1 = client messages
-	// 2 = client and server messages
-	$mail->SMTPDebug = 2;
+	global $conexao_var;
 
-	//Set the hostname of the mail server
-	$mail->Host = 'smtp.gmail.com';
-	// use
-	// $mail->Host = gethostbyname('smtp.gmail.com');
-	// if your network does not support SMTP over IPv6
+	// explode("-", $)
+	$insercao = mysqli_query($conexao_var, "INSERT INTO cliente VALUES (
+		DEFAULT, 
+		'{$user}', 
+		'{$email}', 
+		'{$senha_criptografada}',
+		'{$telefone}',
+		'{$nascimento}',
+		'1a37261345f71070617702b2222cd8653fa481cb.jpg'
+		)"
+	);
 
-	//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
-	$mail->Port = 587;
+	if (mysqli_affected_rows($conexao_var) > 0) {
 
-	//Set the encryption system to use - ssl (deprecated) or tls
-	$mail->SMTPSecure = 'tls';
+		require 'resources/email/phpmailer/phpmailer/PHPMailerAutoload.php';
 
-	//Whether to use SMTP authentication
-	$mail->SMTPAuth = true;
+		$mail = new PHPMailer;
 
-	//Username to use for SMTP authentication - use full email address for gmail
-	$mail->Username = "gabrielbritodacruz@gmail.com";
+		//Tell PHPMailer to use SMTP
+		$mail->isSMTP();
 
-	//Password to use for SMTP authentication
-	$mail->Password = "";
+		//Enable SMTP debugging
+		// 0 = off (for production use)
+		// 1 = client messages
+		// 2 = client and server messages
+		$mail->SMTPDebug = 0;
 
-	//Set who the message is to be sent from
-	$mail->setFrom('gabrielbritodacruz@gmail.com', 'Bucho de Bode!');
+		//Set the hostname of the mail server
+		$mail->Host = 'smtp.gmail.com';
+		// use
+		// $mail->Host = gethostbyname('smtp.gmail.com');
+		// if your network does not support SMTP over IPv6
 
-	//Set an alternative reply-to address
-	$mail->addReplyTo('gabrielbritodacruz@gmail.com', 'Bucho de Bode!');
+		//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+		$mail->Port = 587;
 
-	//Set who the message is to be sent to
-	$mail->addAddress($email, $user);
+		//Set the encryption system to use - ssl (deprecated) or tls
+		$mail->SMTPSecure = 'tls';
 
-	//Set the subject line
-	$mail->Subject = 'Bem vindo ao Bucho de Bode ' . $user;
+		//Whether to use SMTP authentication
+		$mail->SMTPAuth = true;
 
-	//Read an HTML message body from an external file, convert referenced images to embedded,
-	//convert HTML into a basic plain-text alternative body
+		//Username to use for SMTP authentication - use full email address for gmail
+		$mail->Username = "gabrielbritodacruz@gmail.com";
 
-	$message = file_get_contents('resources/email/phpmailer/phpmailer/welcome.html');
+		//Password to use for SMTP authentication
+		$mail->Password = "";
 
-	$message = str_replace('%username%', $user, $message);
+		//Set who the message is to be sent from
+		$mail->setFrom('gabrielbritodacruz@gmail.com', 'Bucho de Bode!');
 
-	$mail->msgHTML($message, __DIR__);
-	// $mail->msgHTML("Olá amigo");
+		//Set an alternative reply-to address
+		$mail->addReplyTo('gabrielbritodacruz@gmail.com', 'Bucho de Bode!');
 
-	//Replace the plain text body with one created manually
-	$mail->AltBody = 'This is a plain-text message body';
+		//Set who the message is to be sent to
+		$mail->addAddress($email, $user);
 
-	//Attach an image file
-	// $mail->addAttachment('images/phpmailer_mini.png');
+		//Set the subject line
+		$mail->Subject = 'Bem vindo ao Bucho de Bode ' . $user;
 
-	//send the message, check for errors
-	if (!$mail->send()) {
-	    echo "Mailer Error: " . $mail->ErrorInfo;
-	} 
+		//Read an HTML message body from an external file, convert referenced images to embedded,
+		//convert HTML into a basic plain-text alternative body
+
+		$message = file_get_contents('resources/email/phpmailer/phpmailer/welcome.html');
+
+		$message = str_replace('%username%', $user, $message);
+
+		$mail->msgHTML($message, __DIR__);
+
+		//Replace the plain text body with one created manually
+		$mail->AltBody = 'This is a plain-text message body';
+
+		//Attach an image file
+		// $mail->addAttachment('images/phpmailer_mini.png');
+
+		//send the message, check for errors
+		if (!$mail->send()) {
+			echo "<script>swal('Tudo quase certo!', 'Seu cadastro foi criado com sucesso, mas estamos com problemas para enviar algumas mensagens para seu e-mail', 'error');</script>";
+		} 
+
+		else {
+		    echo "<script>swal('Tudo certo!', 'Uma mensagem foi enviada para o seu e-mail! Confere lá', 'success');</script>";
+		}
+	}
 
 	else {
-	    echo "Message sent!";
-	    //Section 2: IMAP
-	    //Uncomment these to save your message in the 'Sent Mail' folder.
-	    #if (save_mail($mail)) {
-	    #    echo "Message saved!";
-	    #}
+		echo "<script>swal('Ops!', 'Seu cadastro não foi possível', 'error');</script>";
 	}
 }
