@@ -1,4 +1,5 @@
 <?php
+	ob_start();
 /*	
 	@made by gabriel_cryptoroot
 	Esse arquivo contém as principais
@@ -31,8 +32,9 @@ function conect() {
 		echo "<script>swal('Ops', 'Problemas em nosso servidor, tente novamente mais tarde', 'error');</script>";
 	}
 
+	mysqli_set_charset($conection, "utf8");
+	
 	return $conection;
-
 }
 
 $conexao_var = conect();
@@ -51,7 +53,7 @@ function login($email_, $senha_) {
 
 	$nome_sessao = mysqli_fetch_assoc($buscabanco);
 
-	if (mysqli_num_rows($buscabanco) == 1) {
+	if (mysqli_num_rows($buscabanco) == 1) {  
 		session_start();
 		$_SESSION['nome'] = $nome_sessao['nome'];
 		header("Location: dashboard_cliente.php");		
@@ -79,6 +81,7 @@ function new_user($user_, $email_, $senha_, $telefone_, $nascimento_) {
 	global $conexao_var;
 
 	// explode("-", $)
+	
 	$insercao = mysqli_query($conexao_var, "INSERT INTO cliente VALUES (
 		DEFAULT, 
 		'{$user}', 
@@ -95,6 +98,8 @@ function new_user($user_, $email_, $senha_, $telefone_, $nascimento_) {
 		require 'resources/email/phpmailer/phpmailer/PHPMailerAutoload.php';
 
 		$mail = new PHPMailer;
+
+		$mail->CharSet = 'UTF-8';
 
 		//Tell PHPMailer to use SMTP
 		$mail->isSMTP();

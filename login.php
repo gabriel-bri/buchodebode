@@ -25,11 +25,7 @@
 	# Faz a requisição do arquivo header.php 
 	request_Header();
 ?>
-
-<?php 
-	conect();
-?>
-	
+		
 	<div class="login">
 		<div class="login-field">
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
