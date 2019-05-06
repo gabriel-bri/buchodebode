@@ -13,7 +13,6 @@
 	<link rel="stylesheet" type="text/css" href="resources/css/login.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/header.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/footer.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.min.css">
 	<script type="text/javascript" src="resources/js/sweetalert2.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -45,7 +44,7 @@
 				</div>
 
 				<div class="login-field-recovery">
-					<a href="recovery_password.php" class="color">Esqueci a senha</a>
+					<a href="recovery_pass.php" class="color">Esqueci a senha</a>
 				</div>
 				
 				<input type="submit" name="entrar" value="ENTRAR">
