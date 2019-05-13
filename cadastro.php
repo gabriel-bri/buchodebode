@@ -40,12 +40,12 @@
 				</span>
 				
 				<span class="icond">		
-					<input type="password" name="senha" placeholder="Senha" class="login-field-password" id="pass" required="">
+					<input type="password" name="senha" placeholder="Senha" class="login-field-password" id="pass" required="" autocomplete="off">
 					<i class="fas fa-key"></i>
 				</span>
 				
 				<span class="icond">		
-					<input type="password" name="repeat-pass" placeholder="Confirme sua senha" id="confirm_pass" onkeyup="valida()" required="" class="login-field-repassword">
+					<input type="password" name="repeat-pass" placeholder="Confirme sua senha" id="confirm_pass" onkeyup="valida()" required="" class="login-field-repassword" autocomplete="off">
 					<i class="fas fa-key"></i>
 				</span>
 				

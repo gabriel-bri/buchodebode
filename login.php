@@ -1,7 +1,13 @@
-<?php
+<?php  
 	# Faz a requisição do arquivo functions.php
 	# que contém as funções para o site
 	require_once 'functions.php';
+	session_start();
+	if (empty($_SESSION['key']))
+		$_SESSION['key'] = bin2hex(rand(100, 1000) . time());
+	
+	$csrf = hash_hmac('sha256', 'this is some string', $_SESSION['key']);
+
 ?>
 <!DOCTYPE html>
 <html lang="PT-BR">
@@ -24,18 +30,18 @@
 	# Faz a requisição do arquivo header.php 
 	request_Header();
 ?>
-		
+
 	<div class="login">
 		<div class="login-field">
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 				
 				<span class="icond">
-					<input type="email" name="email" placeholder="E-mail" class="login-field-email">
+					<input type="text" name="email" placeholder="E-mail" class="login-field-email">
 					<i class="fas fa-envelope-square"></i>
 				</span>
 
 				<span class="icond">
-					<input type="password" name="senha" placeholder="Senha" class="login-field-password" required="">
+					<input type="password" name="senha" placeholder="Senha" class="login-field-password" required="" autocomplete="off">
 					<i class="fas fa-key"></i>
 				</span>
 
@@ -43,10 +49,12 @@
 					<input type="checkbox" name="login-on" id="check"><label for="ckeck">Matenha-me conectado</label>
 				</div>
 
+				<input type="hidden" name="protocolo" value='<?php echo $csrf;?>'>
+
 				<div class="login-field-recovery">
 					<a href="recovery_pass.php" class="color">Esqueci a senha</a>
 				</div>
-				
+					
 				<input type="submit" name="entrar" value="ENTRAR">
 
 			</form>
@@ -58,16 +66,24 @@
 		</div>
 	</div>
 
-	<?php 
+	<?php
+	
 		if (isset($_POST['entrar'])) {
-			
-			if (empty($_POST['email']) or empty($_POST['senha'])) {
-				field_blank();
+			if (hash_equals($csrf, $_POST['protocolo'])) {
+				if (empty($_POST['email']) or empty($_POST['senha'])) {
+					field_blank();	
+				}
+
+				else {
+					unset($_SESSION['key']);
+					login($_POST['email'], $_POST['senha']);
+				}	
 			}
 
 			else {
-				login($_POST['email'], $_POST['senha']);
+				echo "<script>swal('Ops', 'Ataque bloqueado', 'error');</script>";
 			}
+			
 		}
 	?>
 <?php

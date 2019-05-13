@@ -1,5 +1,6 @@
 <?php
 	ob_start();
+	// error_reporting(0);
 /*	
 	@made by gabriel_cryptoroot
 	Esse arquivo contém as principais
@@ -43,40 +44,44 @@ function login($email_, $senha_) {
 
 	global $conexao_var;
 	
-	$email = $email_;
+	$email = filter_var($email_, FILTER_SANITIZE_EMAIL);
 
-	$senha = $senha_;
+	$senha = filter_var($senha_, FILTER_SANITIZE_STRING);
 	
-	$senha_criptografada = sha1($senha);
-	
-	$buscabanco = mysqli_query($conexao_var, "SELECT nome, email, senha FROM cliente WHERE email =  '{$email}' AND senha = '{$senha_criptografada}'" );
+	$buscabanco = mysqli_query($conexao_var, "SELECT nome, email, senha FROM cliente WHERE email = '{$email}' LIMIT 1" );
 
-	$nome_sessao = mysqli_fetch_assoc($buscabanco);
+	$dados_usuario = mysqli_fetch_assoc($buscabanco);
 
-	if (mysqli_num_rows($buscabanco) == 1) {  
-		session_start();
-		$_SESSION['nome'] = $nome_sessao['nome'];
-		header("Location: dashboard_cliente.php");		
+	if (mysqli_num_rows($buscabanco) == 1) {
+		if (password_verify($senha, $dados_usuario['senha'])) {
+			session_start();
+			$_SESSION['nome'] = $dados_usuario['nome'];
+			header("Location: dashboard_cliente.php");
+		}
+
+		else {
+			echo "<script>swal('Ops', 'Senha ou e-mail incorretos. Tente novamente', 'error');</script>";
+		}  		
 	}
 
 	else {
-		echo "<script>swal('Ops', 'Senha ou e-mail incorretos. Tente novamente', 'error');</script>";
+		echo "<script>swal('Ops', 'Não encontramos essa conta em nosso sistema', 'error');</script>";
 	}
 }
 
 function new_user($user_, $email_, $senha_, $telefone_, $nascimento_) {
 
-	$user = $user_;
+	$user = filter_var($user_, FILTER_SANITIZE_STRING);
 
-	$email = $email_;
+	$email = filter_var($email_, FILTER_SANITIZE_EMAIL);
 	
-	$senha = $senha_;
+	$senha = filter_var($senha_, FILTER_SANITIZE_STRING);
 
-	$senha_criptografada = sha1($senha);
+	$senha_criptografada = password_hash($senha, PASSWORD_DEFAULT);
 	
-	$telefone = $telefone_;
+	$telefone = filter_var($telefone_, FILTER_SANITIZE_NUMBER_INT);
 
-	$nascimento = $nascimento_;
+	$nascimento = preg_replace("([^0-9/])", "", $nascimento_);
 
 	global $conexao_var;
 	
@@ -173,7 +178,7 @@ function new_user($user_, $email_, $senha_, $telefone_, $nascimento_) {
 
 function recovery_pass($email_) {
 
-	$email = $email_;
+	$email = filter_var($email_, FILTER_SANITIZE_EMAIL);
 
 	global $conexao_var;
 
@@ -189,9 +194,9 @@ function recovery_pass($email_) {
 
 		$email = $dados['email'];
 
-		$nova_senha = substr(sha1(time()), 0, 5);
+		$nova_senha = substr(password_hash(time(), PASSWORD_DEFAULT), 55, 60);
 
-		$senha_criptografada = sha1($nova_senha);
+		$senha_criptografada = password_hash($nova_senha, PASSWORD_DEFAULT);
 
 		require 'resources/email/phpmailer/phpmailer/PHPMailerAutoload.php';
 
@@ -210,9 +215,6 @@ function recovery_pass($email_) {
 
 		//Set the hostname of the mail server
 		$mail->Host = 'smtp.gmail.com';
-		// use
-		// $mail->Host = gethostbyname('smtp.gmail.com');
-		// if your network does not support SMTP over IPv6
 
 		//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
 		$mail->Port = 587;
@@ -272,4 +274,4 @@ function recovery_pass($email_) {
 	else {
 		echo "<script>swal('Ops!', 'Não encontramos esse e-mail, tente mais uma vez', 'error');</script>";
 	}
-}	
+}
