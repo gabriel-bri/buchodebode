@@ -24,7 +24,7 @@ function field_blank() {
 function conect() {
 	$HOST = "localhost";
 	$USER = "root";
-	$PASSWORD = "root";
+	$PASSWORD = "";
 	$DB = "buchodebode";
 
 	@$conection = mysqli_connect($HOST, $USER, $PASSWORD, $DB);
