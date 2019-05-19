@@ -1,0 +1,107 @@
+.login {
+	width: 100%;
+}
+
+.login-field {
+	margin-top: 5%;
+	text-align: center;
+	width: 100%;
+}
+
+.login-field-email {
+	width: 60%;
+	height: 12px;
+	padding: 5% 5% 5% 6%;
+	box-shadow: 1px 1px 2px #262626;
+	border-radius: 5%;
+}
+
+.login-field-password {
+	width: 60%;
+	height: 12px;	
+	padding: 5% 5% 5% 6%;
+	box-shadow: 1px 1px 2px #262626;
+	border-radius: 5%;
+	margin-top: 5%;
+	margin-bottom: 3%;
+}
+
+.icond {
+	position: relative;
+}
+
+.icond i {
+	position: absolute;
+	left: 1.5%;
+	top: 20%;
+	font-size: 1em;
+}
+
+input[type=checkbox] {
+	width: 10%;
+	height: 30px;
+	-webkit-appearance: none;
+	background: transparent;
+	border: 4px solid #262626;
+	transition: .5s;
+	outline: none;
+}
+
+input:checked[type="checkbox"] {
+	border-left: none;
+	border-top: none;
+	border-color: #0f0;
+	width: 5%;
+	transform: rotate(45deg) translate(5px, -10px);
+	transition: .5s;
+	box-sizing: border-box;
+	margin-left: 2%;
+}
+
+.login-field-recovery {
+	margin-top: 2%;
+}
+
+
+.login-field-recovery a {
+	font-size: 1em;
+}
+
+input[type="submit"] {
+	border: none;
+	cursor: pointer;
+	border-radius: 3px;
+	background: #0769b2;
+	appearance: button;
+	outline: none;
+	box-sizing: content-box;
+	padding: 5%;
+	margin-top: 3%;
+	margin-bottom: 3%;
+	width: 80%;
+	text-align: center;
+	color: #fff;
+	text-transform: uppercase;
+}
+
+.login-field-checkbox {
+	margin-top: 3%;
+}
+
+input[type="checkbox"] {
+	vertical-align: -10px;
+}
+
+.login-field-checkbox label {
+	margin-left: 4%;
+}
+
+.login-field-signup {
+	font-size: 1em;
+	margin-bottom: 3%;
+}
+
+.color {
+	color: #0769b2;
+	cursor: pointer;
+}

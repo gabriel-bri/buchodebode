@@ -16,7 +16,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="icon" type="image/png" href="resources/images/logo.png">
 	<link rel="stylesheet" type="text/css" href="resources/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="resources/css/login.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/recovery_pass.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/header.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/footer.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/sweetalert2.min.css">
@@ -42,10 +42,10 @@
 				<input type="hidden" name="protocolo" value='<?php echo $csrf;?>'>
 
 				<div class="login-field-recovery">
-					<a href="recovery_pass.php" class="color">Esqueci a senha</a>
+					<a href="login.php" class="color">Fazer login</a>
 				</div>
 					
-				<input type="submit" name="entrar" value="ENTRAR">
+				<input type="submit" name="recuperar" value="RECUPERAR SENHA">
 
 			</form>
 
@@ -60,21 +60,21 @@
 <?php 
 	if (isset($_POST['recuperar'])) {
 
-					if (hash_equals($csrf, $_POST['protocolo'])) {
-				if (empty($_POST['email']) or empty($_POST['senha'])) {
-					field_blank();	
-				}
-
-				else {
-					unset($_SESSION['key']);
-					login($_POST['email'], $_POST['senha']);
-				}	
+		if (hash_equals($csrf, $_POST['protocolo'])) {
+			if (empty($_POST['email'])) {
+				field_blank();	
 			}
 
 			else {
-				echo "<script>swal('Ops', 'Ataque bloqueado', 'error');</script>";
-			}
-		// recovery_pass($_POST['email']);
+				unset($_SESSION['key']);
+				recovery_pass($_POST['email']);
+			}	
+		}
+
+		else {
+			echo "<script>swal('Ops', 'Ataque bloqueado', 'error');</script>";
+		}
+		
 	}
 
 ?>
