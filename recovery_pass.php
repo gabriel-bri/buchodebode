@@ -44,7 +44,10 @@
 				<div class="login-field-recovery">
 					<a href="login.php" class="color">Fazer login</a>
 				</div>
-					
+				
+
+				<input type="hidden" name="protocolo" value='<?php echo $csrf;?>'>
+				
 				<input type="submit" name="recuperar" value="RECUPERAR SENHA">
 
 			</form>

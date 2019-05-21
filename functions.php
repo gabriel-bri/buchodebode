@@ -24,7 +24,7 @@ function field_blank() {
 function conect() {
 	$HOST = "localhost";
 	$USER = "root";
-	$PASSWORD = "";
+	$PASSWORD = "root";
 	$DB = "buchodebode";
 
 	@$conection = mysqli_connect($HOST, $USER, $PASSWORD, $DB);
@@ -44,24 +44,31 @@ function login($email_, $senha_) {
 
 	global $conexao_var;
 	
-	$email = filter_var($email_, FILTER_SANITIZE_EMAIL);
+	// $email = filter_var($email_, FILTER_SANITIZE_EMAIL);
 
-	$senha = filter_var($senha_, FILTER_SANITIZE_STRING);
+	// $senha = filter_var($senha_, FILTER_SANITIZE_STRING);
 	
-	$buscabanco = mysqli_query($conexao_var, "SELECT nome, email, senha FROM cliente WHERE email = '{$email}' LIMIT 1" );
+	$email = $email_;
+
+	$senha = $senha_;
+
+	// $buscabanco = mysqli_query($conexao_var, "SELECT nome, email, senha FROM cliente WHERE email = '{$email}' LIMIT 1" );
+
+
+	$buscabanco = mysqli_query($conexao_var, "SELECT nome, email, senha FROM cliente WHERE email = '{$email}' AND senha = '{$senha}'" );
 
 	$dados_usuario = mysqli_fetch_assoc($buscabanco);
 
 	if (mysqli_num_rows($buscabanco) == 1) {
-		if (password_verify($senha, $dados_usuario['senha'])) {
+		// if (password_verify($senha, $dados_usuario['senha'])) {
 			session_start();
 			$_SESSION['nome'] = $dados_usuario['nome'];
 			header("Location: dashboard_cliente.php");
-		}
+		// }
 
-		else {
-			echo "<script>swal('Ops', 'Senha ou e-mail incorretos. Tente novamente', 'error');</script>";
-		}  		
+		// else {
+		// 	echo "<script>swal('Ops', 'Senha ou e-mail incorretos. Tente novamente', 'error');</script>";
+		// }  		
 	}
 
 	else {

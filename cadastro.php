@@ -2,6 +2,12 @@
 	# Faz a requisição do arquivo functions.php
 	# que contém as funções para o site
 	require_once 'functions.php';
+	session_start();
+	if (empty($_SESSION['key']))
+		$_SESSION['key'] = bin2hex(rand(100, 1000) . time());
+	
+	$csrf = hash_hmac('sha256', 'this is some string', $_SESSION['key']);
+
 ?>
 
 <!DOCTYPE html>
@@ -59,8 +65,10 @@
 					<i class="fas fa-calendar-alt"></i>
 				</span>
 				
+				<input type="hidden" name="protocolo" value='<?php echo $csrf;?>'>
+				
 				<div class="login-field-checkbox">
-					<input type="checkbox" name="agree" id="check"><label for="ckeck">Concordo com todos os <a href="#">termos</a> e <a href="#">política de privacidade</a></label>
+					<input type="checkbox" name="agree" id="check"><label for="ckeck">Concordo com todos os <a href="termosecondicoes.php">termos e condições</a></label>
 				</div>
 
 				<input type="submit" name="cadastrar" value="CADASTRAR-SE">
@@ -100,7 +108,6 @@
 				empty($_POST['telefone'])) {
 				field_blank();
 			}
-
 			else {
 				$ano_nascimento = $_POST['ano-nascimento'];
 
@@ -112,12 +119,18 @@
 					if (!empty($_POST['agree'])) {
 
 						if ($_POST['senha'] === $_POST['repeat-pass']) {
-							new_user($_POST['nome'], 
-								$_POST['email'], 
-								$_POST['senha'], 
-								$_POST['telefone'], 
-								$_POST['ano-nascimento']
-							);
+							if (hash_equals($csrf, $_POST['protocolo'])) {
+								new_user($_POST['nome'], 
+									$_POST['email'], 
+									$_POST['senha'], 
+									$_POST['telefone'], 
+									$_POST['ano-nascimento']
+								);
+							}
+
+							else {
+								echo "<script>swal('Ops', 'Ataque bloqueado', 'error');</script>";
+							}
 						}
 
 						else {

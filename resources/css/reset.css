@@ -15,4 +15,9 @@ ul {
 
 a {
 	text-decoration: none;
+	color: #0769b2;
+}
+
+a:visited {
+	color: #0769b2;
 }
